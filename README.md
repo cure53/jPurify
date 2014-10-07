@@ -8,7 +8,7 @@ jPurify is maintained by the same people that look after [DOMPurify](/cure53/DOM
 
 ## What does it do?
 
-jPurify, once included, simply overwrites some security-critical jQuery methods and adds proper HTML santitation. Let's have a look at an example to clarify:
+jPurify, once included, simply overwrites some security-critical jQuery methods and adds proper HTML sanitation. Let's have a look at an example to clarify:
 
 ```html
 <html>
@@ -26,7 +26,7 @@ jPurify, once included, simply overwrites some security-critical jQuery methods 
 
 ```
 
-This code shown above is vulnerable to XSS. An attacker can influence `location.hash` to contain evil HTML and then attack your website's users. Not nice. Now let's have a look at what jPurify accomplishes: 
+This code shown above is vulnerable to XSS. An attacker can influence `location.hash` to contain evil HTML and then attack your website's users. Not nice. Now let's have a look at what jPurify accomplishes:
 
 ```html
 <html>
@@ -52,10 +52,34 @@ Now, the XSS attack is being blocked. jPurify inspects and sanitizes the argumen
 
 ## How do I use it?
 
-It's easy. Just include DOMPurify **and** jPurify on your website. It will seemlessly plug into jQuery and sanitize any potentially dangerous DOM-transaction. 
+It's easy. Just include DOMPurify **and** jPurify on your website. It will seamlessly plug into jQuery and sanitize any potentially dangerous DOM-transaction.
 
 ```html
 <script type="text/javascript" src="purify.js"></script>
 <script type="text/javascript" src="jpurify.js"></script>
 ```
 
+## What XSS sinks are covered?
+
+We currently cover the following XSS sinks and sanitize them with DOMPurify:
+
+* add()
+* constructor()
+* has()
+* init()
+* index()
+* add()
+* wrapAll()
+* wrapInner()
+* wrap()
+* append()
+* prepend()
+* before()
+* after()
+* html()
+* replaceWith()
+* appendTo()
+* prependTo()
+* insertBefore()
+* insertAfter()
+* replaceAll()
