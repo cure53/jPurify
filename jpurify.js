@@ -6,6 +6,36 @@
     var config = {SAFE_FOR_JQUERY : true}
     
     /**
+     * 
+     */
+    var sanitize = function(args, index){
+        
+        // handle pure string argument
+        if(typeof args === 'string'){
+            args = DOMPurify.sanitize(args, config);
+            
+        // handle wrapped object arguments
+        } else if(typeof args === 'object' && typeof args[index].nodeName === 'string'){
+            args = $(DOMPurify.sanitize(args[index].outerHTML, config));            
+            
+        // handle string array argument
+        } else if(typeof args === 'object' && typeof args[index] === 'string'){
+            args[index] = DOMPurify.sanitize(args[index], config);
+
+        // handle function argument
+        } else if(typeof args === 'object' && typeof args[index] === 'function'){
+            
+            // wrap function argument and sanitize return value
+            var original = args[index],
+            wrapper  = function(){
+                return DOMPurify.sanitize(original.apply(this, args));
+            }
+            args[index] = wrapper;
+        }
+        return args;        
+    }
+    
+    /**
      * Define a safe elm.html() method for jQuery
      * 
      * + Replaces elm.html()
@@ -14,25 +44,7 @@
     jQuery.fn.unsafeHtml = jQuery.fn.html;
     jQuery.fn.html = function(){
         if(arguments && arguments[0]){
-            
-            // handle string argument
-            if(typeof arguments[0] === 'string'){
-                arguments[0] = DOMPurify.sanitize(arguments[0], config);
-            
-            // handle DOM node argument
-            } else if(arguments[0].nodeName){
-                arguments[0] = $(DOMPurify.sanitize(arguments[0].outerHTML, config));
-                
-            // handle function argument
-            } else if(typeof arguments[0] === 'function'){
-                
-                // wrap function argument and sanitize return value
-                var original = arguments[0],
-                wrapper  = function(){
-                    return DOMPurify.sanitize(original.apply(this, arguments));
-                }
-                arguments[0] = wrapper;
-            }
+            arguments = sanitize(arguments, 0);
         }
         jQuery.fn.unsafeHtml.apply(this, arguments);
     };
@@ -58,24 +70,7 @@
             for(var i in arguments[0]){
                 var element = arguments[0][i];
                 
-                // handle wrapped object arguments
-                if(element[0] && typeof element[0].nodeName === 'string'){
-                    arguments[0][i] = $(DOMPurify.sanitize(element[0].outerHTML, config));
-                
-                // handle string arguments
-                } else if(element[0] && typeof element === 'string') {
-                    arguments[0][i] = DOMPurify.sanitize(element, config);
-
-                // handle function argument
-                } else if(typeof element[0] === 'function'){
-                    
-                    // wrap function argument and sanitize return value
-                    var original = element[0],
-                    wrapper  = function(){
-                        return DOMPurify.sanitize(original.apply(this, arguments));
-                    }
-                    arguments[0][i] = wrapper;
-                }
+                    arguments[0][i] = sanitize(element, 0);
             }
         }
         return jQuery.fn.unsafeDomManip.apply(this, arguments);
@@ -94,6 +89,15 @@
         arguments[0] = DOMPurify.sanitize(arguments[0], config);
         return jQuery.unsafeParseHTML.apply(this, arguments);
     };
+    
+    /**
+     * TODO de-duplicate the code
+     */
+    jQuery.unsafeBuildFragment = jQuery.buildFragment;
+    jQuery.buildFragment = function(){
+        arguments[0] = sanitize(arguments[0], 0);
+        return jQuery.unsafeBuildFragment.apply(this, arguments);
+    }
     
     /**
      * Define a safe elm.attr() method for jQuery
