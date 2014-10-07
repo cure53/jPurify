@@ -21,8 +21,8 @@
             } else if(typeof arguments[0] === 'function'){
                 
                 // wrap function argument and sanitize return value
-                var original = arguments[0];
-                var wrapper  = function(){
+                var original = arguments[0],
+                wrapper  = function(){
                     return DOMPurify.sanitize(original.apply(this, arguments));
                 }
                 arguments[0] = wrapper;
@@ -64,8 +64,8 @@
                 } else if(typeof element[0] === 'function'){
                     
                     // wrap function argument and sanitize return value
-                    var original = element[0];
-                    var wrapper  = function(){
+                    var original = element[0],
+                    wrapper  = function(){
                         return DOMPurify.sanitize(original.apply(this, arguments));
                     }
                     arguments[0][i] = wrapper;
@@ -88,4 +88,30 @@
         arguments[0] = DOMPurify.sanitize(arguments[0]);
         return jQuery.unsafeParseHTML.apply(this, arguments);
     };
+    
+    /**
+     * Define a safe elm.attr() method for jQuery
+     * 
+     * + Protects elm.attr() from XSS
+     * + Exposes original method as elm.unsafeAttr()
+     */
+    jQuery.fn.unsafeAttr = jQuery.fn.attr;
+    jQuery.fn.attr = function(){
+        if(arguments.length > 1){
+            
+            // disallow assigning of event handlers using elm.attr()
+            if(/^\W*on/.test(arguments[0])){
+                return false;
+            }
+            // detect and remove dangerous URI handlers
+            if(/\W/.test(arguments[1])) {
+                var regex = /^(\w+script|data):/gi,
+                whitespace = /[\x00-\x20\xA0\u1680\u180E\u2000-\u2029\u205f\u3000]/g;
+                if(arguments[1].replace(whitespace,'').match(regex)){
+                    return false;    
+                }
+            }
+        }
+        return jQuery.fn.unsafeAttr.apply(this, arguments);
+    }
 })();
