@@ -1,6 +1,8 @@
+**Warning: Don't use this software yet. It's still in experimental stages**
+
 # jPurify
 
-jPurify is a plugin that automatically adds XSS-safety to jQuery. The reason why we do that is jQuery's lack of DOMXSS protection. We wanted to create a jQuery plugin, that adds super-easy-to-use and fully automatic HTML sanitation to the whole jQuery API.
+jPurify is a plugin that automatically adds XSS-safety to jQuery. The reason why we do that is jQuery's lack of DOMXSS protection. We wanted to create a jQuery plugin, that adds super-easy-to-use and fully automatic HTML sanitation to the whole jQuery API. jPurify has been tested with jQuery 1.11.1 and 2.1.1.
 
 jPurify is maintained by the same people that look after [DOMPurify](/cure53/DOMPurify).
 
