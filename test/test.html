@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <script src="jquery.js"></script>
+        <script src="purify.js"></script>
+        <script src="../jpurify.js"></script>
+    </head>
+    <body>
+        <div id="html1"></div>
+        <div id="html2"></div>
+        <div id="html3"></div>
+        <div id="append"></div>
+        <div id="wrap"></div>
+        <script>
+        
+            // create a jQuery wrapped element
+            var iframe = document.createElement('iframe');
+            iframe.onload=function(){alert(1)};
+            iframe.src='javascript:alert(2)'
+            wrapped = $(iframe);
+            
+            // create a nasty function
+            var xssfn = function(){return '<li>#wrap XSS from return value</li><iframe/onload=alert(4.0)>'}
+        
+            $('<svg/onload=alert(1.0)>')
+            $('#html1').html('<li>#html XSS from HTML string</li><iframe/onload=alert(1.1)>');
+            $('#html2').html(xssfn);
+            $('#html3').html(wrapped);
+            
+            $('#append').append('<li>#append XSS from HTML string</li><iframe/onload=alert(2.1)>', '<iframe/onload=alert(2.2)>');
+            $('#append').prepend('<li>#prepend XSS from HTML string</li><iframe/onload=alert(2.3)>', '<iframe/onload=alert(2.4)>');
+            $('#append').before('<li>#before XSS from HTML string</li><iframe/onload=alert(2.4)>', '<iframe/onload=alert(2.5)>');
+            $('#append').after('<li>#after XSS from HTML string</li><iframe/onload=alert(2.6)>', '<iframe/onload=alert(2.7)>');
+
+            $('#append').append(wrapped, '<iframe/onload=alert(2.2)>');
+            $('#append').prepend(wrapped, '<iframe/onload=alert(2.4)>');
+            $('#append').before(wrapped, '<iframe/onload=alert(2.5)>');
+            $('#append').after(wrapped, '<iframe/onload=alert(2.7)>');
+            
+            $('#append').append(xssfn);
+            $('#append').prepend(xssfn);
+            $('#append').before(xssfn);
+            $('#append').after(xssfn);
+            
+            
+            $('#wrap').wrap(xssfn);
+            $('#wrap').wrap('<li>#wrap XSS from HTML string</li><iframe/onload=alert(4.1)>');
+            $('#wrap').wrapInner('<li>#wrapInner XSS from HTML string</li><iframe/onload=alert(4.2)>');
+            $('#wrap').wrapAll('<li>#wrapAll XSS from HTML string</li><iframe/onload=alert(4.3)></svg>');
+                       
+        </script>
+    </body>
+</html>
