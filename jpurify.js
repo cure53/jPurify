@@ -1,4 +1,10 @@
 (function(){
+    
+    /**
+     * Specify DOMPurify config options
+     */
+    var config = {SAFE_FOR_JQUERY : true}
+    
     /**
      * Define a safe elm.html() method for jQuery
      * 
@@ -11,11 +17,11 @@
             
             // handle string argument
             if(typeof arguments[0] === 'string'){
-                arguments[0] = DOMPurify.sanitize(arguments[0]);
+                arguments[0] = DOMPurify.sanitize(arguments[0], config);
             
             // handle DOM node argument
             } else if(arguments[0].nodeName){
-                arguments[0] = $(DOMPurify.sanitize(arguments[0].outerHTML));
+                arguments[0] = $(DOMPurify.sanitize(arguments[0].outerHTML, config));
                 
             // handle function argument
             } else if(typeof arguments[0] === 'function'){
@@ -54,11 +60,11 @@
                 
                 // handle wrapped object arguments
                 if(element[0] && typeof element[0].nodeName === 'string'){
-                    arguments[0][i] = $(DOMPurify.sanitize(element[0].outerHTML));
+                    arguments[0][i] = $(DOMPurify.sanitize(element[0].outerHTML, config));
                 
                 // handle string arguments
                 } else if(element[0] && typeof element === 'string') {
-                    arguments[0][i] = DOMPurify.sanitize(element);
+                    arguments[0][i] = DOMPurify.sanitize(element, config);
 
                 // handle function argument
                 } else if(typeof element[0] === 'function'){
@@ -85,7 +91,7 @@
     jQuery.parseHTML = function(){
         
         // we simply need to sanitize the string input
-        arguments[0] = DOMPurify.sanitize(arguments[0]);
+        arguments[0] = DOMPurify.sanitize(arguments[0], config);
         return jQuery.unsafeParseHTML.apply(this, arguments);
     };
     
