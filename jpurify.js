@@ -110,7 +110,7 @@
         if(arguments.length > 1){
             
             // disallow assigning of event handlers using elm.attr()
-            if(/^\W*on/.test(arguments[0])){
+            if(/^\W*on/i.test(arguments[0])){
                 return false;
             }
             // detect and remove dangerous URI handlers
