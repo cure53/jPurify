@@ -8,6 +8,7 @@
         <div id="html1"></div>
         <div id="html2"></div>
         <div id="html3"></div>
+        <div id="html4"></div>
         <div id="append"></div>
         <div id="wrap"></div>
         <div id="add"></div>
@@ -28,6 +29,7 @@
             $('#html1').html('<li>#html XSS from HTML string</li><iframe/onload=alert(1.1)>');
             $('#html2').html(xssfn);
             $('#html3').html(wrapped);
+            $('#html4').html(1).html(2).html(3).append(4).before(0);
             
             $('#append').append('<li>#append XSS from HTML string</li><iframe/onload=alert(2.1)>', '<iframe/onload=alert(2.2)>');
             $('#append').appendTo('<li>#append XSS from HTML string</li><iframe/onload=alert(2.2)>', '<iframe/onload=alert(2.2)>');
@@ -62,8 +64,12 @@
             $('#attr1').attr('onclick', 'alert(1)');
             $('#attr1').attr('title', 'flowers and trees, birds and bees');
             
-            $('#attr2').find('a').attr('href', '\r\njavas\r\ncript:alert(1)');
+            //$('#attr2').find('a').attr('href', '\r\njavas\r\ncript:alert(1)');
             $('#attr2').find('a').attr('title', 'flowers and trees, birds and bees');
+            
+            $('body').has('<svg onload=alert(6.0)>');
+            $('body').index('<svg onload=alert(6.1)>');
+            $('body').constructor('<svg onload=alert(6.2)>');
                        
         </script>
     </body>

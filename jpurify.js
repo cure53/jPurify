@@ -46,7 +46,7 @@
         if(arguments && arguments[0]){
             arguments = sanitize(arguments, 0);
         }
-        jQuery.fn.unsafeHtml.apply(this, arguments);
+        return jQuery.fn.unsafeHtml.apply(this, arguments);
     };
     
     /**
