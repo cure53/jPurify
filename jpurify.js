@@ -53,14 +53,14 @@
         
         // disallow assigning of event handlers using elm.attr()
         if(/^\W*on/i.test(args[0])){
-            return [];
+            return false;
         }
         // detect and remove dangerous URI handlers
         if(/\W/.test(args[1])) {
             var regex = /^(\w+script|data):/gi,
             whitespace = /[\x00-\x20\xA0\u1680\u180E\u2000-\u2029\u205f\u3000]/g;
             if(args[1].replace(whitespace,'').match(regex)){
-                return [];    
+                return false;    
             }
         }
         // sanitize argument value in any case
@@ -119,7 +119,10 @@
     jQuery.parseHTML = function(){
         
         // we simply need to sanitize the string input
-        arguments[0] = DOMPurify.sanitize(arguments[0], config);
+        arguments[0] = DOMPurify.sanitize('#'+arguments[0], config).slice(1);
+        if(!arguments[0]){
+            return false;
+        }
         return jQuery.unsafeParseHTML.apply(this, arguments);
     };
     
@@ -129,6 +132,9 @@
     jQuery.unsafeBuildFragment = jQuery.buildFragment;
     jQuery.buildFragment = function(){
         arguments[0] = sanitize(arguments[0], 0);
+        if(!arguments[0]){
+            return false;
+        }        
         return jQuery.unsafeBuildFragment.apply(this, arguments);
     }
     
@@ -142,6 +148,9 @@
     jQuery.fn.attr = function(){
         if(arguments.length > 1){
             arguments = sanitizeAttr(arguments);
+            if(!arguments) {
+                return false;
+            }
         }
         return jQuery.fn.unsafeAttr.apply(this, arguments);
     }
@@ -156,6 +165,9 @@
     jQuery.fn.prop = function(){
         if(arguments.length > 1){
             arguments = sanitizeAttr(arguments);
+            if(!arguments) {
+                return false;
+            }
         }
         return jQuery.fn.unsafeProp.apply(this, arguments);
     }    
