@@ -6,7 +6,13 @@
     var config = {SAFE_FOR_JQUERY : true}
     
     /**
+     * Sanitize incoming data and index. 
      * 
+     * In essence, this method checks the type of the arguments 
+     * and decides what way of sanitizing is the right one.
+     * 
+     * @param   data to sanitize
+     * @param   index to access
      */
     var sanitize = function(args, index){
         
@@ -33,6 +39,34 @@
             args[index] = wrapper;
         }
         return args;        
+    }
+    
+    /**
+     * Sanitize attribute keys and value
+     * 
+     * This method does the sanitation for attr() and prop() and makes 
+     * sure that HTML, malicious URI handlers and events get filtered
+     * 
+     * @param   data to sanitize
+     */
+    var sanitizeAttr = function(args){
+        
+        // disallow assigning of event handlers using elm.attr()
+        if(/^\W*on/i.test(arguments[0])){
+            return false;
+        }
+        // detect and remove dangerous URI handlers
+        if(/\W/.test(arguments[1])) {
+            var regex = /^(\w+script|data):/gi,
+            whitespace = /[\x00-\x20\xA0\u1680\u180E\u2000-\u2029\u205f\u3000]/g;
+            if(arguments[1].replace(whitespace,'').match(regex)){
+                return false;    
+            }
+        }
+        // sanitize argument value in any case
+        arguments[1] = DOMPurify.sanitize(arguments[1], config);        
+        
+        return args;
     }
     
     /**
@@ -108,20 +142,22 @@
     jQuery.fn.unsafeAttr = jQuery.fn.attr;
     jQuery.fn.attr = function(){
         if(arguments.length > 1){
-            
-            // disallow assigning of event handlers using elm.attr()
-            if(/^\W*on/i.test(arguments[0])){
-                return false;
-            }
-            // detect and remove dangerous URI handlers
-            if(/\W/.test(arguments[1])) {
-                var regex = /^(\w+script|data):/gi,
-                whitespace = /[\x00-\x20\xA0\u1680\u180E\u2000-\u2029\u205f\u3000]/g;
-                if(arguments[1].replace(whitespace,'').match(regex)){
-                    return false;    
-                }
-            }
+            arguments = sanitizeArgs(arguments);
         }
         return jQuery.fn.unsafeAttr.apply(this, arguments);
     }
+    
+    /**
+     * Define a safe elm.prop() method for jQuery
+     * 
+     * + Protects elm.prop() from XSS
+     * + Exposes original method as elm.unsafeProp()
+     */
+    jQuery.fn.unsafeProp = jQuery.fn.prop;
+    jQuery.fn.prop = function(){
+        if(arguments.length > 1){
+            arguments = sanitizeArgs(arguments);
+        }
+        return jQuery.fn.unsafeProp.apply(this, arguments);
+    }    
 })();
