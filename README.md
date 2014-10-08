@@ -86,3 +86,7 @@ jQuery has crazy lots of XSS sinks and developers need to make sure that none is
 * [`replaceAll() // $('body').replaceAll('<svg onload=alert(1)>')`](http://api.jquery.com/replaceAll/)
 * [`attr() // $('body').attr('onclick', 'alert(1)')`](http://api.jquery.com/attr/)
 * [`attr() // $('a').attr('href', 'javascript:alert(1)')`](http://api.jquery.com/attr/)
+
+## I think it sucks!
+
+That's amazing! Please write ticket and tell us what's the problem. Too slow? Found a bypass? Don't like the indentation? let us know.
