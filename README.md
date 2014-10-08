@@ -1,4 +1,4 @@
-**Warning: Don't use this software yet. It's still in experimental stages**
+**Warning: Don't use this software yet. It's still in an experimental stage!**
 
 # jPurify
 
@@ -8,7 +8,7 @@ jPurify is maintained by the same people that look after [DOMPurify](https://git
 
 ## What does it do?
 
-jPurify, once included, simply overwrites some security-critical jQuery methods and adds proper HTML sanitation. Let's have a look at an example to clarify:
+jPurify, once included, simply overwrites some security-critical jQuery methods and adds proper HTML sanitation. Let's have a look at an example to clarify ([here's a small live-demo](http://cure53.de/jpurify/#%3Cimg%20src=x%20onerror=alert%281%29%3E)):
 
 ```html
 <html>
@@ -61,24 +61,26 @@ It's easy. Just include DOMPurify **and** jPurify on your website. It will seaml
 
 ## What XSS sinks are covered?
 
-We currently cover the following XSS sinks and sanitize them with DOMPurify:
+jQuery has crazy lots of XSS sinks and developers need to make sure that none is hit by user generated content. The more complex a website the harder that gets of course. That's where jPurify jumps in. We currently cover the following XSS sinks and sanitize them with DOMPurify:
 
-* [`add()`](http://api.jquery.com/add/)
-* `constructor()`
-* `has()`
-* `init()`
-* [`index()`](http://api.jquery.com/index/)
-* [`wrapAll()`](http://api.jquery.com/wrapAll/)
-* [`wrapInner()`](http://api.jquery.com/wrapInner/)
-* [`wrap()`](http://api.jquery.com/wrap/)
-* [`append()`](http://api.jquery.com/append/)
-* [`prepend()`](http://api.jquery.com/prepend/)
-* [`before()`](http://api.jquery.com/before/)
-* [`after()`](http://api.jquery.com/after/)
-* [`html()`](http://api.jquery.com/html/)
-* [`replaceWith()`](http://api.jquery.com/replaceWith/)
-* [`appendTo()`](http://api.jquery.com/appendTo/)
-* [`prependTo()`](http://api.jquery.com/prependTo/)
-* [`insertBefore()`](http://api.jquery.com/insertBefore/)
-* [`insertAfter()`](http://api.jquery.com/insertAfter/)
-* [`replaceAll()`](http://api.jquery.com/replaceAll/)
+* [`add() // $('body').add('<svg onload=alert(1)>')`](http://api.jquery.com/add/)
+* `constructor() // $('body').constructor('<svg onload=alert(1)>')`
+* `has() // $('body').has('<svg onload=alert(1)>')`
+* `init() // $('body').init('<svg onload=alert(1)>')`
+* [`index() // $('body').index('<svg onload=alert(1)>')`](http://api.jquery.com/index/)
+* [`wrapAll() // $('body').wrapAll('<svg onload=alert(1)>')`](http://api.jquery.com/wrapAll/)
+* [`wrapInner() // $('body').wrapInner('<svg onload=alert(1)>')`](http://api.jquery.com/wrapInner/)
+* [`wrap() // $('body').wrap('<svg onload=alert(1)>')`](http://api.jquery.com/wrap/)
+* [`append() // $('body').append('<svg onload=alert(1)>')`](http://api.jquery.com/append/)
+* [`prepend() // $('body').prepend('<svg onload=alert(1)>')`](http://api.jquery.com/prepend/)
+* [`before() // $('body').before('<svg onload=alert(1)>')`](http://api.jquery.com/before/)
+* [`after() // $('body').after('<svg onload=alert(1)>')`](http://api.jquery.com/after/)
+* [`html() // $('body').html('<svg onload=alert(1)>')`](http://api.jquery.com/html/)
+* [`replaceWith() // $('body').replaceWith('<svg onload=alert(1)>')`](http://api.jquery.com/replaceWith/)
+* [`appendTo() // $('body').appendTo('<svg onload=alert(1)>')`](http://api.jquery.com/appendTo/)
+* [`prependTo() // $('body').prependTo('<svg onload=alert(1)>')`](http://api.jquery.com/prependTo/)
+* [`insertBefore() // $('body').insertBefore('<svg onload=alert(1)>')`](http://api.jquery.com/insertBefore/)
+* [`insertAfter() // $('body').insertAfter('<svg onload=alert(1)>')`](http://api.jquery.com/insertAfter/)
+* [`replaceAll() // $('body').replaceAll('<svg onload=alert(1)>')`](http://api.jquery.com/replaceAll/)
+* [`attr() // $('body').attr('onclick', 'alert(1)')`](http://api.jquery.com/attr/)
+* [`attr() // $('a').attr('href', 'javascript:alert(1)')`](http://api.jquery.com/attr/)
