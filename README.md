@@ -63,10 +63,12 @@ It's easy. Just include DOMPurify **and** jPurify on your website. It will seaml
 
 jQuery has crazy lots of XSS sinks and developers need to make sure that none is hit by user generated content. The more complex a website the harder that gets of course. That's where jPurify jumps in. We currently cover the following XSS sinks and sanitize them with DOMPurify:
 
-* [`add() // $('body').add('<svg onload=alert(1)>')`](http://api.jquery.com/add/)
+* `$() // $('<svg onload=alert(1)>')`
+* `$.parseHTML() // $.parseHTML('<svg onload=alert(1)>')`
 * `constructor() // $('body').constructor('<svg onload=alert(1)>')`
 * `has() // $('body').has('<svg onload=alert(1)>')`
 * `init() // $('body').init('<svg onload=alert(1)>')`
+* [`add() // $('body').add('#<svg onload=alert(1)>')`](http://api.jquery.com/add/)
 * [`index() // $('body').index('<svg onload=alert(1)>')`](http://api.jquery.com/index/)
 * [`wrapAll() // $('body').wrapAll('<svg onload=alert(1)>')`](http://api.jquery.com/wrapAll/)
 * [`wrapInner() // $('body').wrapInner('<svg onload=alert(1)>')`](http://api.jquery.com/wrapInner/)
