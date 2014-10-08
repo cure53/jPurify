@@ -18,7 +18,7 @@
         
         // handle pure string argument
         if(typeof args === 'string'){
-            args = DOMPurify.sanitize(args, config);
+            args = DOMPurify.sanitize('#'+args, config).slice(1);
             
         // handle wrapped object arguments
         } else if(typeof args === 'object' && typeof args[index].nodeName === 'string'){
@@ -26,7 +26,7 @@
             
         // handle string array argument
         } else if(typeof args === 'object' && typeof args[index] === 'string'){
-            args[index] = DOMPurify.sanitize(args[index], config);
+            args[index] = DOMPurify.sanitize('#'+args[index], config).slice(1);
 
         // handle function argument
         } else if(typeof args === 'object' && typeof args[index] === 'function'){
@@ -52,19 +52,19 @@
     var sanitizeAttr = function(args){
         
         // disallow assigning of event handlers using elm.attr()
-        if(/^\W*on/i.test(arguments[0])){
-            return false;
+        if(/^\W*on/i.test(args[0])){
+            return [];
         }
         // detect and remove dangerous URI handlers
-        if(/\W/.test(arguments[1])) {
+        if(/\W/.test(args[1])) {
             var regex = /^(\w+script|data):/gi,
             whitespace = /[\x00-\x20\xA0\u1680\u180E\u2000-\u2029\u205f\u3000]/g;
-            if(arguments[1].replace(whitespace,'').match(regex)){
-                return false;    
+            if(args[1].replace(whitespace,'').match(regex)){
+                return [];    
             }
         }
         // sanitize argument value in any case
-        arguments[1] = DOMPurify.sanitize(arguments[1], config);        
+        args[1] = DOMPurify.sanitize(args[1], config);        
         
         return args;
     }
@@ -103,8 +103,7 @@
             // we have to go over all fields in arguments[0]
             for(var i in arguments[0]){
                 var element = arguments[0][i];
-                
-                    arguments[0][i] = sanitize(element, 0);
+                arguments[0][i] = sanitize(element, 0);
             }
         }
         return jQuery.fn.unsafeDomManip.apply(this, arguments);
@@ -142,7 +141,7 @@
     jQuery.fn.unsafeAttr = jQuery.fn.attr;
     jQuery.fn.attr = function(){
         if(arguments.length > 1){
-            arguments = sanitizeArgs(arguments);
+            arguments = sanitizeAttr(arguments);
         }
         return jQuery.fn.unsafeAttr.apply(this, arguments);
     }
@@ -156,7 +155,7 @@
     jQuery.fn.unsafeProp = jQuery.fn.prop;
     jQuery.fn.prop = function(){
         if(arguments.length > 1){
-            arguments = sanitizeArgs(arguments);
+            arguments = sanitizeAttr(arguments);
         }
         return jQuery.fn.unsafeProp.apply(this, arguments);
     }    
