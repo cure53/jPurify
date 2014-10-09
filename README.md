@@ -94,4 +94,4 @@ That's amazing! Please write ticket and tell us what's the problem. Too slow? Fo
 
 ## Credits
 
-Thanks @insertScript and @avlidienbrunn for finding and reporting bypasses in the prototype version!
+Thanks [@insertScript](https://twitter.com/insertScript) and [@avlidienbrunn](https://twitter.com/avlidienbrunn) for finding and reporting bypasses in the prototype version!
