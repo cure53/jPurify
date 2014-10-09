@@ -6,6 +6,11 @@
     var config = {SAFE_FOR_JQUERY : true}
     
     /**
+     * Specify regex for uncritical data detection
+     */
+    var uncritical = /(^[-\w]*$)|(^<\w+>$)/;
+    
+    /**
      * Sanitize incoming data and index. 
      * 
      * In essence, this method checks the type of the arguments 
@@ -18,18 +23,26 @@
         
         // handle pure string argument
         if(typeof args === 'string'){
-            args = DOMPurify.sanitize('#'+args, config).slice(1);
-            
+            if(!uncritical.test(args)){
+                args = DOMPurify.sanitize('#'+args, config).slice(1);
+            }
         // handle wrapped object arguments
-        } else if(typeof args === 'object' && typeof args[index].nodeName === 'string'){
-            args = $(DOMPurify.sanitize(args[index].outerHTML, config));            
+        } else if(typeof args === 'object' 
+            && typeof args[index].nodeName === 'string'){
+            if(!uncritical.test(args[index].outerHTML)){
+                args = $(DOMPurify.sanitize(args[index].outerHTML, config));
+            }            
             
         // handle string array argument
-        } else if(typeof args === 'object' && typeof args[index] === 'string'){
-            args[index] = DOMPurify.sanitize('#'+args[index], config).slice(1);
-
+        } else if(typeof args === 'object' 
+            && typeof args[index] === 'string'){
+            if(!uncritical.test(args)){
+                args[index] = DOMPurify.sanitize(
+                    '#'+args[index], config).slice(1);
+            }
         // handle function argument
-        } else if(typeof args === 'object' && typeof args[index] === 'function'){
+        } else if(typeof args === 'object' 
+            && typeof args[index] === 'function'){
             
             // wrap function argument and sanitize return value
             var original = args[index],
@@ -119,7 +132,7 @@
     jQuery.parseHTML = function(){
         
         // we simply need to sanitize the string input
-        arguments[0] = DOMPurify.sanitize('#'+arguments[0], config).slice(1);
+        arguments[0] = sanitize(arguments[0]);
         if(!arguments[0]){
             return false;
         }

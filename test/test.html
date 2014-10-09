@@ -27,56 +27,67 @@
             // create a nasty function
             var xssfn = function(){return '<li>#wrap XSS from return value</li><iframe/onload=alert(4.0)>'}
         
+            // check if factory and html() are sanitized
             $('<svg/onload=alert(1.0)>')
             $('#html1').html('<li>#html XSS from HTML string</li><iframe/onload=alert(1.1)>');
             $('#html2').html(xssfn);
             $('#html3').html(wrapped);
             $('#html4').html(1).html(2).html(3).append(4).before(0);
             
+            // check if append, prepend etc. are sanitized
             $('#append').append('<li>#append XSS from HTML string</li><iframe/onload=alert(2.1)>', '<iframe/onload=alert(2.2)>');
             $('#append').appendTo('<li>#append XSS from HTML string</li><iframe/onload=alert(2.2)>', '<iframe/onload=alert(2.2)>');
             $('#append').prepend('<li>#prepend XSS from HTML string</li><iframe/onload=alert(2.3)>', '<iframe/onload=alert(2.4)>');
             $('#append').before('<li>#before XSS from HTML string</li><iframe/onload=alert(2.4)>', '<iframe/onload=alert(2.5)>');
             $('#append').after('<li>#after XSS from HTML string</li><iframe/onload=alert(2.6)>', '<iframe/onload=alert(2.7)>');
-
             $('#append').append(wrapped, '<iframe/onload=alert(2.2)>');
             $('#append').appendTo(wrapped, '<iframe/onload=alert(2.3)>');
             $('#append').prepend(wrapped, '<iframe/onload=alert(2.4)>');
             $('#append').before(wrapped, '<iframe/onload=alert(2.5)>');
             $('#append').after(wrapped, '<iframe/onload=alert(2.7)>');
-            
             $('#append').append(xssfn);
             $('#append').prepend(xssfn);
             $('#append').before(xssfn);
             $('#append').after(xssfn);
             
+            // check if wrapping is sanitized
             $('#wrap').wrap(xssfn);
             $('#wrap').wrap('<li>#wrap XSS from HTML string</li><iframe/onload=alert(4.1)>');
             $('#wrap').wrapInner('<li>#wrapInner XSS from HTML string</li><iframe/onload=alert(4.2)>');
             $('#wrap').wrapAll('<li>#wrapAll XSS from HTML string</li><iframe/onload=alert(4.3)></svg>');
             
+            // check if add is sanitized
             $('#add').add(xssfn);
             $('#add').add(wrapped);
             $('#add').add('<li>#wrapAll XSS from HTML string</li><iframe/onload=alert(5.0)></svg>');
-            
             $('#add').add(xssfn,xssfn,xssfn,xssfn);
             $('#add').add(wrapped,wrapped,wrapped,wrapped);
             $('#add').add('<li>#wrapAll XSS from HTML string</li><iframe/onload=alert(5.0)></svg>','<li>#wrapAll XSS from HTML string</li><iframe/onload=alert(5.0)></svg>','<li>#wrapAll XSS from HTML string</li><iframe/onload=alert(5.0)></svg>','<li>#wrapAll XSS from HTML string</li><iframe/onload=alert(5.0)></svg>');            
-                 
+
+            // attr sanitation tests                 
             $('#attr1').attr('onclick', 'alert(5.1)');
             $('#attr1').attr('title', 'flowers and trees, birds and bees');
-            
             $('#attr2').find('a').attr('href', '\r\njavas\r\ncript:alert(5.2)');
             $('#attr2').find('a').attr('title', 'flowers and trees, birds and bees');
-            
             $('#attr3').attr('srcdoc', '#attr and srcdoc<svg/onload=alert(5.3)')
             
+            // check if has, index etc. are sanitized
             $('body').has('<svg onload=alert(6.0)>');
             $('body').index('<svg onload=alert(6.1)>');
             $('body').constructor('<svg onload=alert(6.2)>');
             
+            // check if prop is sanitized
             $('#prop').prop('innerHTML', '#prop and innerHTML<svg onload=alert(7.0)>');
-            $('#prop').prop('outerHTML', '#prop and innerHTML<svg onload=alert(7.0)>');
+            $('#prop').prop('outerHTML', '#prop and innerHTML<svg onload=alert(7.1)>');
+            
+            // check if plain element factory works
+            $('<template>');
+            $('<style>');
+            $('<script>');
+            $('<td>');
+            $('<caption>');
+            $('<tr>');
+            $('<body>');
                        
         </script>
     </body>
