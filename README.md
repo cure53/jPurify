@@ -1,4 +1,4 @@
-**Warning: Don't use this software yet. It's still in an experimental stage!**
+**Warning: Don't use this software yet. It's still in an experimental stage! A first release is close though.**
 
 # jPurify
 
@@ -91,3 +91,7 @@ jQuery has crazy lots of XSS sinks and developers need to make sure that none is
 ## I think it sucks!
 
 That's amazing! Please write ticket and tell us what's the problem. Too slow? Found a bypass? Don't like the indentation? Do let us know.
+
+## Credits
+
+Thanks @insertScript and @avlidienbrunn for finding and reporting bypasses in the prototype version!
