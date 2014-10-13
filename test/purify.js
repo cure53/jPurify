@@ -145,6 +145,11 @@
          */
         var _parseConfig = function(cfg) {
             
+            /* Shield configuration object from tampering */
+            if (typeof cfg !== 'object'){
+                cfg = {};
+            }
+            
             /* Set configuration parameters */
             'ALLOWED_ATTR'    in cfg ? ALLOWED_ATTR    = cfg.ALLOWED_ATTR    : null;
             'ALLOWED_TAGS'    in cfg ? ALLOWED_TAGS    = cfg.ALLOWED_TAGS    : null;
@@ -338,7 +343,8 @@
 
                     if (tmp instanceof Attr) {
                         if(SANITIZE_DOM) {
-                            if(tmp.name === 'id' && window[tmp.value]) {
+                            if(tmp.name === 'id' 
+                                && (window[tmp.value] || document[tmp.value])) {
                                 clobbering = true;
                             }
                             if(tmp.name === 'name' && document[tmp.value]){
