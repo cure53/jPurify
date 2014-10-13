@@ -28,6 +28,7 @@
             }
         // handle wrapped object arguments
         } else if(typeof args === 'object' 
+            && typeof args[index] !== 'undefined'
             && typeof args[index].nodeName === 'string'){
             if(!uncritical.test(args[index].outerHTML)){
                 args = $(DOMPurify.sanitize(args[index].outerHTML, config));
@@ -52,7 +53,7 @@
             args[index] = wrapper;
         }
         return args;        
-    }
+    };
     
     /**
      * Sanitize attribute keys and value
@@ -80,7 +81,7 @@
         args[1] = DOMPurify.sanitize(args[1], config);        
         
         return args;
-    }
+    };
     
     /**
      * Define a safe elm.html() method for jQuery
@@ -140,16 +141,19 @@
     };
     
     /**
-     * TODO de-duplicate the code
+     * Define a safe clean() method for jQuery
+     * 
+     * + Protects jQ.clean()
+     * + Exposes original method as jQ.clean
      */
-    jQuery.unsafeBuildFragment = jQuery.buildFragment;
-    jQuery.buildFragment = function(){
+    jQuery.unsafeClean = jQuery.clean;
+    jQuery.clean = function(){
         arguments[0] = sanitize(arguments[0], 0);
         if(!arguments[0]){
             return false;
         }        
-        return jQuery.unsafeBuildFragment.apply(this, arguments);
-    }
+        return jQuery.unsafeClean.apply(this, arguments);
+    };   
     
     /**
      * Define a safe elm.attr() method for jQuery
@@ -166,7 +170,7 @@
             }
         }
         return jQuery.fn.unsafeAttr.apply(this, arguments);
-    }
+    };
     
     /**
      * Define a safe elm.prop() method for jQuery
@@ -183,5 +187,5 @@
             }
         }
         return jQuery.fn.unsafeProp.apply(this, arguments);
-    }    
+    };  
 })();
