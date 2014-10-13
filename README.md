@@ -1,4 +1,4 @@
-**Warning: Don't use this software yet. It's still in an experimental stage! A first release is close though.**
+**Warning: This toll is very young and probably buggy. Please file bugs if you find any!**
 
 # jPurify
 
