@@ -1,0 +1,35 @@
+{
+  "name": "jPurify",
+  "version": "0.1-alpha",
+  "homepage": "https://github.com/cure53/jPurify",
+  "author": "Cure53 <info@cure53.de>",
+  "description": "jPurify is a plugin that automatically adds XSS-safety to jQuery based on DOMPurify",
+  "main": "jpurify.js",
+  "dependencies": {
+    "DOMPurify": "*"
+  },
+  "keywords": [
+    "cross site scripting",
+    "dom",
+    "filter",
+    "html",
+    "jquery",
+    "mathml",
+    "purify",
+    "sanitize",
+    "sanitizer",
+    "secure",
+    "security",
+    "svg",
+    "xss"
+  ],
+  "license": {
+    "type": "MPL",
+    "url": "https://github.com/cure53/jPurify/blob/master/LICENSE"
+  },
+  "ignore": [
+    "**/.*",
+    "test",
+    "demo"
+  ]
+}
