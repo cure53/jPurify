@@ -1,10 +1,10 @@
-**Warning: This toll is very young and probably buggy. Please file bugs if you find any!**
+**Warning: This tool is still very young. Please file bugs if you find any!**
 
 # jPurify
 
 jPurify is a plugin that automatically adds XSS-safety to jQuery. The reason why we do that is jQuery's lack of DOMXSS protection. We wanted to create a jQuery plugin, that adds super-easy-to-use and fully automatic HTML sanitation to the whole jQuery API. jPurify has been tested with jQuery 1.11.1 and 2.1.1. It's known to work well down until jQuery 1.5.2.
 
-jPurify is maintained by the same people that look after [DOMPurify](https://github.com/cure53/DOMPurify). It works in all modern browsers (Safari, Opera (15+), Internet Explorer (9+), Firefox and Chrome - as well as almost anything else using Blink or WebKit). It doesn't break on IE6 or other legacy browsers. It simply does nothing there.
+jPurify is maintained by the same people that look after [DOMPurify](https://github.com/cure53/DOMPurify). It works in all modern browsers (Safari, Opera (15+), Internet Explorer (10+), Firefox and Chrome - as well as almost anything else using Blink or WebKit). It doesn't break on IE6 or other legacy browsers. It simply does nothing there.
 
 ## What does it do?
 

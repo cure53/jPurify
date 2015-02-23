@@ -1,8 +1,9 @@
 {
   "name": "jpurify",
-  "title": "jPurify",
   "description": "jPurify is a plugin that automatically adds XSS-safety to jQuery based on DOMPurify",
   "keywords": [
+    "jquery-plugin",
+    "ecosystem:jquery",
     "cross site scripting",
     "dom",
     "filter",
@@ -16,7 +17,7 @@
     "svg",
     "xss"
   ],
-  "version": "0.1-alpha",
+  "version": "0.1",
   "author": {
     "name": "Mario Heiderich",
     "email": "mario@cure53.de",
@@ -28,6 +29,10 @@
       "url": "https://github.com/cure53/jPurify/blob/master/LICENSE"
     }
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cure53/jPurify.git"
+  },
   "bugs": "https://github.com/cure53/jPurify/issues",
   "homepage": "https://github.com/cure53/jPurify",
   "dependencies": {
