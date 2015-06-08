@@ -6,7 +6,7 @@
   "description": "jPurify is a plugin that automatically adds XSS-safety to jQuery based on DOMPurify",
   "main": "jpurify.js",
   "dependencies": {
-    "DOMPurify": "*"
+    "dompurify": "*"
   },
   "keywords": [
     "cross site scripting",
