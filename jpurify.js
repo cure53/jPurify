@@ -7,6 +7,11 @@
     var config = { SAFE_FOR_JQUERY : true };
 
     /**
+     * Specify jPurify version
+     */
+    var version = '0.2';
+    
+    /**
      * Specify regex for uncritical data detection
      */
     var uncritical = /(^[-\w]*$)|(^<\w+>$)/;
