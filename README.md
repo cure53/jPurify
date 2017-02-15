@@ -1,4 +1,6 @@
-**Warning: This tool is still very young. Please file bugs if you find any!**
+**Warning: This tool is experimental and currently not maintained. Don't use it in production.**
+
+**Please feel free to take it and feed it if you like it!**
 
 # jPurify
 
