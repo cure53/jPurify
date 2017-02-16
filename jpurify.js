@@ -9,7 +9,7 @@
     /**
      * Specify jPurify version
      */
-    var version = '0.2';
+    var version = '0.3';
     
     /**
      * Specify regex for uncritical data detection
@@ -187,5 +187,79 @@
             if (!args) { return false; }
         }
         return jQuery.fn.unsafeProp.apply(this, args);
+    };
+    /**
+     * To support newer version of jQuery
+     *
+     */
+    // Protects append()
+    // Exposes original method unsafe_append()
+    jQuery.fn.unsafe_append = jQuery.fn.append;
+    jQuery.fn.append = function() {
+        var args = Array.prototype.slice.call(arguments);
+        if (args && args[0] && typeof args[0] === 'string') {
+                args[0]= sanitize(args[0]);
+            }
+        return jQuery.fn.unsafe_append.apply(this, args);
+    };
+    // Protects prepend()
+    // Exposes original method unsafe_prepend()
+    jQuery.fn.unsafe_prepend = jQuery.fn.prepend;
+    jQuery.fn.prepend = function() {
+        var args = Array.prototype.slice.call(arguments);
+        if (args && args[0] && typeof args[0] === 'string') {
+                args[0]= sanitize(args[0]);
+            }
+        return jQuery.fn.unsafe_prepend.apply(this, args);
+    };
+    // Protects before()
+    // Exposes original method unsafe_before()
+    jQuery.fn.unsafe_before = jQuery.fn.before;
+    jQuery.fn.before = function() {
+        var args = Array.prototype.slice.call(arguments);
+        if (args && args[0] && typeof args[0] === 'string') {
+                args[0]= sanitize(args[0]);
+            }
+        return jQuery.fn.unsafe_before.apply(this, args);
+    };
+    // Protects after()
+    // Exposes original method unsafe_after()
+    jQuery.fn.unsafe_after = jQuery.fn.after;
+    jQuery.fn.after = function() {
+        var args = Array.prototype.slice.call(arguments);
+        if (args && args[0] && typeof args[0] === 'string') {
+                args[0]= sanitize(args[0]);
+            }
+        return jQuery.fn.unsafe_after.apply(this, args);
+    };
+    // Protects wrap()
+    // Exposes original method unsafe_wrap()
+    jQuery.fn.unsafe_wrap = jQuery.fn.wrap;
+    jQuery.fn.wrap = function() {
+        var args = Array.prototype.slice.call(arguments);
+        if (args && args[0] && typeof args[0] === 'string') {
+                args[0]= sanitize(args[0]);
+            }
+        return jQuery.fn.unsafe_wrap.apply(this, args);
+    };
+    // Protects wrapInner()
+    // Exposes original method unsafe_wrapInner()
+    jQuery.fn.unsafe_wrapInner = jQuery.fn.wrapInner;
+    jQuery.fn.wrapInner = function() {
+        var args = Array.prototype.slice.call(arguments);
+        if (args && args[0] && typeof args[0] === 'string') {
+                args[0]= sanitize(args[0]);
+            }
+        return jQuery.fn.unsafe_wrapInner.apply(this, args);
+    };
+    // Protects wrapAll()
+    // Exposes original method unsafe_wrapAll()
+    jQuery.fn.unsafe_wrapAll = jQuery.fn.wrapAll;
+    jQuery.fn.wrapAll = function() {
+        var args = Array.prototype.slice.call(arguments);
+        if (args && args[0] && typeof args[0] === 'string') {
+                args[0]= sanitize(args[0]);
+            }
+        return jQuery.fn.unsafe_wrapAll.apply(this, args);
     };
 })();

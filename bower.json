@@ -1,6 +1,6 @@
 {
   "name": "jpurify",
-  "version": "0.2",
+  "version": "0.3",
   "homepage": "https://github.com/cure53/jPurify",
   "author": "Cure53 <info@cure53.de>",
   "description": "jPurify is a plugin that automatically adds XSS-safety to jQuery based on DOMPurify",
